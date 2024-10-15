@@ -35,6 +35,25 @@ public class TargetBehavior : MonoBehaviour
 			// destroy self
 			Destroy (gameObject);
 		}
+		// if hit by a projectile: collect score
+		if (newCollision.gameObject.CompareTag("Projectile")){
+			Debug.Log("Target Hit!");
+			if (explosionPrefab)	{
+				// Instantiate an explosion effect at the gameObjects position and rotation
+				Instantiate(explosionPrefab, transform.position, transform.rotation);
+			}
+			// if game manager exists, make adjustments based on target properties
+			if (GameManager.gm)	{
+				GameManager.gm.targetHit(scoreAmount, timeAmount);
+				Debug.Log("Scored " + scoreAmount);
+			}
+			// destroy the projectile
+			Destroy(newCollision.gameObject);
+			// destroy self
+			Destroy(gameObject);
+		}
+
+		
 	}
 
 	// when collided with another gameObject
